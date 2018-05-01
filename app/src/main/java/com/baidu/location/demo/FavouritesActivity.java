@@ -42,7 +42,7 @@ public class FavouritesActivity extends Activity {
 	private ListView fav_list;
 
 	private DBHelper dbhelper;
-	private SQLiteDatabase sqldb;
+//	private SQLiteDatabase sqldb;
 
 	private List<String> data = new ArrayList<String>();
 
@@ -101,9 +101,9 @@ public class FavouritesActivity extends Activity {
 				String clicked_id = data.get(arg2);
 
 				//得到数据库对象
-				sqldb = dbhelper.getReadableDatabase();
+				SQLiteDatabase db = dbhelper.getReadableDatabase();
 				//创建游标
-				Cursor mCursor = sqldb.query("fav_table",
+				Cursor mCursor = db.query("fav_table",
 						new String[] { "id", "name", "number",
 								"type", "grade", "remark",
 								"latitude", "longitude" },
@@ -114,6 +114,8 @@ public class FavouritesActivity extends Activity {
 
 				String clicked_lati = mCursor.getString(mCursor.getColumnIndex("latitude"));
 				String clicked_longi = mCursor.getString(mCursor.getColumnIndex("longitude"));
+
+				db.close();
 
 				long lati3 = Long.parseLong(clicked_lati);
 				long longi3 = Long.parseLong(clicked_longi);
@@ -135,9 +137,9 @@ public class FavouritesActivity extends Activity {
 //		List<String> data = new ArrayList<String>();
 
 		//得到数据库对象
-		sqldb = dbhelper.getReadableDatabase();
+		SQLiteDatabase db = dbhelper.getReadableDatabase();
 		//创建游标
-		Cursor mCursor = sqldb.query("fav_table",
+		Cursor mCursor = db.query("fav_table",
 				new String[] { "id", "name", "number",
 						"type", "grade", "remark",
 						"latitude", "longitude" },
@@ -154,7 +156,7 @@ public class FavouritesActivity extends Activity {
 //			showText.setText("" + d/1000000d/1000000d);
 		}while(mCursor.moveToNext());
 
-		sqldb.close();
+		db.close();
 	}
 
 	/**

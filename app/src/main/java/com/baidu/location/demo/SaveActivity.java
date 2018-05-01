@@ -41,7 +41,7 @@ public class SaveActivity extends Activity{
 	private Button addButton, showButton;
 
 	private DBHelper dbhelper;
-	private SQLiteDatabase sqldb;
+//	private SQLiteDatabase sqldb;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -152,9 +152,9 @@ public class SaveActivity extends Activity{
 			@Override
 			public void onClick(View v) {
 				//得到数据库对象
-				sqldb = dbhelper.getReadableDatabase();
+				SQLiteDatabase db = dbhelper.getReadableDatabase();
 				//创建游标
-				Cursor mCursor = sqldb.query("fav_table",
+				Cursor mCursor = db.query("fav_table",
 						new String[] { "id", "name", "number",
 								"type", "grade", "remark",
 								"latitude", "longitude" },
@@ -170,7 +170,7 @@ public class SaveActivity extends Activity{
 					showText.setText("" + d/1000000d/1000000d);
 				}while(mCursor.moveToNext());
 
-				sqldb.close();
+				db.close();
 
 			}
 		});
@@ -191,8 +191,6 @@ public class SaveActivity extends Activity{
 
 	@Override
 	protected void onStop() {
-		sqldb.close();
-		dbhelper.close();
 		super.onStop();
 	}
 }

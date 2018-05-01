@@ -1,6 +1,5 @@
 package com.baidu.location.demo;
 
-//import java.util.LinkedList;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -54,13 +53,9 @@ public class StandardActivity extends Activity {
 	private Button favButton;
 	private Button naviButton;
     private Button searchButton;
-
+	private EditText searchText;
 	private MapView mMapView = null;
 	private BaiduMap mBaiduMap;
-//	private LocationService locService;
-//	private LinkedList<LocationEntity> locationList = new LinkedList<LocationEntity>(); // 存放历史定位结果的链表，最大存放当前结果的前5次定位结果
-
-    private EditText searchText;
 
 	private static BDLocation staticLocation;
 	private LatLng desPoint;
@@ -73,8 +68,6 @@ public class StandardActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// -----------demo view config ------------
 		setContentView(R.layout.standard);
-//		LocationResult = (TextView) findViewById(R.id.textView1);
-//		LocationResult.setMovementMethod(ScrollingMovementMethod.getInstance());
         locButton = (Button) findViewById(R.id.loc_button);
         saveButton = (Button) findViewById(R.id.save_button);
         favButton = (Button) findViewById(R.id.fav_button);
@@ -87,14 +80,6 @@ public class StandardActivity extends Activity {
 		mBaiduMap = mMapView.getMap();
 		mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 		mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(15));
-//		locService = ((LocationApplication) getApplication()).locationService;
-//		LocationClientOption mOption = locService.getDefaultLocationClientOption();
-//		mOption.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
-//		mOption.setCoorType("bd09ll");
-//		locService.setLocationOption(mOption);
-//		locService.registerListener(listener);
-//		locService.start();
-
 	}
 
 	/**
@@ -143,21 +128,6 @@ public class StandardActivity extends Activity {
 
 		locationService.start();// 定位SDK
 
-
-        saveButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StandardActivity.this, SaveActivity.class);
-                intent.putExtra("from", 1);
-
-                intent.putExtra("latitude", (long)(desPoint.latitude * 1000000 * 1000000));
-				intent.putExtra("longitude", (long)(desPoint.longitude * 1000000 * 1000000));
-
-//				intent.putExtra("le", (int)(desPoint.longitude));
-
-				StandardActivity.this.startActivity(intent);
-            }
-        });
         locButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -196,6 +166,21 @@ public class StandardActivity extends Activity {
 			}
 		});
 
+		saveButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(StandardActivity.this, SaveActivity.class);
+				intent.putExtra("from", 1);
+
+				intent.putExtra("latitude", (long)(desPoint.latitude * 1000000 * 1000000));
+				intent.putExtra("longitude", (long)(desPoint.longitude * 1000000 * 1000000));
+
+//				intent.putExtra("le", (int)(desPoint.longitude));
+
+				StandardActivity.this.startActivity(intent);
+			}
+		});
+
         naviButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -219,8 +204,6 @@ public class StandardActivity extends Activity {
 				NaviParaOption para = new NaviParaOption()
 						.startPoint(pt1).endPoint(pt2)
 						.startName("起始点").endName("目的地");
-
-
 
                 try {
 
@@ -362,9 +345,6 @@ public class StandardActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// 退出时销毁定位
-//		mLocClient.stop();
-		// 关闭定位图层
 		mBaiduMap.setMyLocationEnabled(false);
 		mMapView.onDestroy();
 		mMapView = null;

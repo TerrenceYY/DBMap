@@ -117,7 +117,7 @@ public class MainActivity extends Activity {
 					TargetClass = LocationAutoNotify.class;
 					break;
 				case 3:
-					TargetClass = BNaviMainActivity.class;
+					TargetClass = LocationOption.class;
 					break;
 				case 4:
 					TargetClass = NotifyActivity.class;
@@ -129,7 +129,7 @@ public class MainActivity extends Activity {
                     TargetClass = StandardActivity.class;
 					break;
 				case 7:
-                    TargetClass = StandardActivity.class;
+                    TargetClass = IsHotWifiActivity.class;
 					break;
 				case 8:
 					TargetClass = QuestActivity.class;
@@ -152,11 +152,11 @@ public class MainActivity extends Activity {
 		data.add("基础定位功能");
 		data.add("配置定位参数");
 		data.add("自定义回调示例");
-		data.add("BNaviMainActivity");
+		data.add("LocationOption");
 		data.add("位置消息提醒");
 		data.add("室内定位功能");
 		data.add("StandardActivity");
-		data.add("StandardActivity");
+		data.add("IsHotWifiActivity");
 		data.add("QuestActivity");
 
 		return data;
