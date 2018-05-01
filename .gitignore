@@ -1,0 +1,6 @@
+build/
+app/assets/
+app/libs/
+app/build/
+.gradle/
+gradle/
