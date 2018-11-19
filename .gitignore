@@ -4,3 +4,4 @@ app/libs/
 app/build/
 .gradle/
 gradle/
+.idea
