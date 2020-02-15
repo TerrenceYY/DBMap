@@ -127,6 +127,9 @@ public class MainActivity extends Activity {
 				case 3:
 					TargetClass = QuestActivity.class;
 					break;
+				case 4:
+					TargetClass = RegisterAct.class;
+					break;
 				default:
 					break;
 				}
@@ -152,6 +155,7 @@ public class MainActivity extends Activity {
 		data.add("收藏夹");
 		data.add("基础定位");
 		data.add("关于");
+		data.add("注册账号");
 
 		return data;
 	}

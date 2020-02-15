@@ -29,7 +29,10 @@
 		601：key服务被开发者自己禁用\n
 		602：key mcode不匹配\n
 		501～700：key验证失败\n</string>
-    <string name="qa_callback">作者：dingbin\n
+    <string name="qa_callback">应用名：定位demo\n
+        作者：dingbin\n
+        版本：1.0.0\n
+        发布时间：2018.11.20\n
         问题反馈邮箱:dingbin2016@qq.com\n
     </string>
 

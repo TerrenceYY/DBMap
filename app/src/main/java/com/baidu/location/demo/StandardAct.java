@@ -30,6 +30,12 @@ import com.baidu.mapapi.navi.BaiduMapAppNotSupportNaviException;
 import com.baidu.mapapi.navi.BaiduMapNavigation;
 import com.baidu.mapapi.navi.NaviParaOption;
 
+import com.baidu.mapapi.search.poi.*;
+//import com.baidu.mapapi.search.poi.PoiResult;
+//import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.map.Overlay.*;
+
 /***
  * 单点定位示例，用来展示基本的定位结果，配置在LocationService.java中
  * 默认配置也可以在LocationService中修改
@@ -49,6 +55,10 @@ public class StandardAct extends Activity {
 	private LatLng desPoint;
 	private LatLng startPoint;
 
+    private Button searchButton;
+    private EditText searchText;
+    private PoiSearch mPoiSearch;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +72,20 @@ public class StandardAct extends Activity {
 
         showText = (TextView)findViewById(R.id.show_text55);
 
+        searchButton = (Button) findViewById(R.id.search_button);
+        searchText = (EditText) findViewById(R.id.search_text);
+
+        mPoiSearch = PoiSearch.newInstance();
+
 		mMapView = (MapView) findViewById(R.id.bView);
 		mBaiduMap = mMapView.getMap();
 		mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 		mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(15));
 
-
 		if(desPoint == null && startPoint == null) {
 			mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(new LatLng(39.1436485, 117.2179097)));
 		}
+
 	}
 
 	@Override
@@ -87,8 +102,30 @@ public class StandardAct extends Activity {
 
 		locationService.start();// 定位SDK
 
+        mPoiSearch.setOnGetPoiSearchResultListener(listener);
 
-		locButton.setOnClickListener(new OnClickListener() {
+        searchButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String sText = searchText.getText().toString();
+
+
+                /**
+                 *  PoiCiySearchOption 设置检索属性
+                 *  city 检索城市
+                 *  keyword 检索内容关键字
+                 *  pageNum 分页页码
+                 */
+                mPoiSearch.searchInCity(new PoiCitySearchOption()
+                        .city("天津") //必填
+                        .keyword(sText) //必填
+                        .pageNum(10));
+
+
+            }
+        });
+
+        locButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -96,6 +133,7 @@ public class StandardAct extends Activity {
 					desPoint = startPoint;
 					onResume();
 					mark();
+					mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(20));
 					mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(desPoint));
 				}
 			}
@@ -139,6 +177,13 @@ public class StandardAct extends Activity {
 				mark();
 			}
    	     });
+
+		if (null != startPoint) {
+			desPoint = startPoint;
+			onResume();
+			mark();
+			mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(desPoint));
+		}
 	}
 
 	@Override
@@ -172,6 +217,40 @@ public class StandardAct extends Activity {
 		}
 
 	};
+
+    private OnGetPoiSearchResultListener listener = new OnGetPoiSearchResultListener() {
+        @Override
+        public void onGetPoiResult(PoiResult poiResult) {
+            showText.setText(poiResult.toString());
+			if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
+				mBaiduMap.clear();
+
+				//创建PoiOverlay对象
+				PoiOverlay poiOverlay = new PoiOverlay(mBaiduMap);
+
+				//设置Poi检索数据
+				poiOverlay.setData(poiResult);
+
+				//将poiOverlay添加至地图并缩放至合适级别
+				poiOverlay.addToMap();
+				poiOverlay.zoomToSpan();
+			}
+
+		}
+//        @Override
+//        public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailSearchResult) {
+//
+//        }
+        @Override
+        public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
+
+        }
+        //废弃
+        @Override
+        public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
+
+        }
+    };
 
 
 	@Override
@@ -214,7 +293,7 @@ public class StandardAct extends Activity {
 				.longitude(desPoint.longitude).build();
 		mBaiduMap.setMyLocationData(locData);
 		BitmapDescriptor mCurrentMarker =
-				BitmapDescriptorFactory.fromResource(R.drawable.icon_openmap_focuse_mark);
+				BitmapDescriptorFactory.fromResource(R.drawable.icon);
 		MyLocationConfiguration config =
 				new MyLocationConfiguration(MyLocationConfiguration.LocationMode.NORMAL, true, mCurrentMarker);
 		mBaiduMap.setMyLocationConfiguration(config);
@@ -226,6 +305,7 @@ public class StandardAct extends Activity {
 		mBaiduMap.setMyLocationEnabled(false);
 		mMapView.onDestroy();
 		mMapView = null;
+        mPoiSearch.destroy();
 		super.onDestroy();
 	}
 

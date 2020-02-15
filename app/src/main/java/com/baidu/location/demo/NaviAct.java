@@ -61,7 +61,7 @@ public class NaviAct extends Activity {
 		mMapView = (MapView) findViewById(R.id.bView66);
 		mBaiduMap = mMapView.getMap();
 		mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-		mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(15));
+		mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(20));
 	}
 
 	@Override
