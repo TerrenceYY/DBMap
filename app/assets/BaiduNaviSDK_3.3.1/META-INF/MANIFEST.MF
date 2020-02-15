@@ -1,0 +1,5 @@
+Manifest-Version: 3.3.1
+Ant-Version: Apache Ant 1.9.2
+Dex-Location: classes.dex
+Created-By: BaiduNavi + dx 1.11
+
