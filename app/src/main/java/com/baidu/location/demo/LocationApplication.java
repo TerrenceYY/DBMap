@@ -3,6 +3,7 @@ package com.baidu.location.demo;
 
 import com.baidu.location.service.LocationService;
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.CoordType;
 
 import android.app.Application;
 import android.app.Service;
@@ -27,6 +28,7 @@ public class LocationApplication extends Application {
         locationService = new LocationService(getApplicationContext());
         mVibrator =(Vibrator)getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
+        SDKInitializer.setCoordType(CoordType.BD09LL);
        
     }
 }

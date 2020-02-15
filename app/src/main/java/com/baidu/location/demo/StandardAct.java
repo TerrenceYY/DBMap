@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.baidu.baidulocationdemo.R;
@@ -59,6 +61,10 @@ public class StandardAct extends Activity {
     private EditText searchText;
     private PoiSearch mPoiSearch;
 
+    private RadioGroup rg1;
+    private RadioButton rb1,rb2;
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,10 @@ public class StandardAct extends Activity {
 
         searchButton = (Button) findViewById(R.id.search_button);
         searchText = (EditText) findViewById(R.id.search_text);
+
+        rg1 = (RadioGroup) findViewById(R.id.rg1) ;
+        rb1 = (RadioButton) findViewById(R.id.rb1) ;
+        rb2 = (RadioButton) findViewById(R.id.rb2) ;
 
         mPoiSearch = PoiSearch.newInstance();
 
@@ -166,6 +176,17 @@ public class StandardAct extends Activity {
 				startActivity(i1);
 			}
 		});
+
+        rg1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if(i == rb1.getId()){
+                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+                } else if (i == rb2.getId()) {
+                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+                }
+            }
+        });
 
 
         mBaiduMap.setOnMapLongClickListener(new BaiduMap.OnMapLongClickListener() {
