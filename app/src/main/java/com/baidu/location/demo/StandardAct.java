@@ -102,7 +102,7 @@ public class StandardAct extends Activity {
 
 		locationService.start();// 定位SDK
 
-        mPoiSearch.setOnGetPoiSearchResultListener(listener);
+//        mPoiSearch.setOnGetPoiSearchResultListener(listener);
 
         searchButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -218,39 +218,39 @@ public class StandardAct extends Activity {
 
 	};
 
-    private OnGetPoiSearchResultListener listener = new OnGetPoiSearchResultListener() {
-        @Override
-        public void onGetPoiResult(PoiResult poiResult) {
-            showText.setText(poiResult.toString());
-			if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
-				mBaiduMap.clear();
-
-				//创建PoiOverlay对象
-				PoiOverlay poiOverlay = new PoiOverlay(mBaiduMap);
-
-				//设置Poi检索数据
-				poiOverlay.setData(poiResult);
-
-				//将poiOverlay添加至地图并缩放至合适级别
-				poiOverlay.addToMap();
-				poiOverlay.zoomToSpan();
-			}
-
-		}
+//    private OnGetPoiSearchResultListener listener = new OnGetPoiSearchResultListener() {
+//        @Override
+//        public void onGetPoiResult(PoiResult poiResult) {
+//            showText.setText(poiResult.toString());
+//			if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
+//				mBaiduMap.clear();
+//
+//				//创建PoiOverlay对象
+//////				PoiOverlay poiOverlay = new PoiOverlay(mBaiduMap);
+////
+////				//设置Poi检索数据
+////				poiOverlay.setData(poiResult);
+////
+////				//将poiOverlay添加至地图并缩放至合适级别
+////				poiOverlay.addToMap();
+////				poiOverlay.zoomToSpan();
+//			}
+//
+//		}
 //        @Override
 //        public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailSearchResult) {
 //
 //        }
-        @Override
-        public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
-
-        }
-        //废弃
-        @Override
-        public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
-
-        }
-    };
+//        @Override
+//        public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
+//
+//        }
+//        //废弃
+//        @Override
+//        public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
+//
+//        }
+//    };
 
 
 	@Override
